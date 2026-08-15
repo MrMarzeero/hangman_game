@@ -5,7 +5,7 @@ import subprocess
 import random
 
 # VARIABLES
-arquivo = 'words.txt'
+arquivo = 'palavras.txt'
 MAX_ATTEMPTS = 10
 
 # CODE
