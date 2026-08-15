@@ -1,0 +1,5 @@
+casa
+escola
+computador
+python
+bicicleta
