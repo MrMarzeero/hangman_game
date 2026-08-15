@@ -1,9 +1,11 @@
 # HANGMAN GAME
 import os
+import sys
 import subprocess
 import random
 
 # VARIABLES
+arquivo = 'palavras.txt'
 MAX_ATTEMPTS = 10
 
 # CODE
@@ -12,19 +14,26 @@ def clear_terminal():
     command = 'cls' if os.name == 'nt' else 'clear'
     subprocess.run([command])
 
+if not os.path.exists(arquivo) or os.path.getsize(arquivo) == 0:
+    print(f"Erro: O arquivo '{arquivo}' não existe ou está vazio.")
+    sys.exit(1)
+
 words = []
 word = ''
 
 won = False
 tries = 0
 
+with open("palavras.txt", 'r') as data:
+    for word in data:
+        words.append(word)
+        if not all(char.isalpha() for char in word):
+            continue
+
 def run_game():
     global tries, won, word
     tries+=1
 
-    with open("palavras.txt", 'r') as data:
-        for word in data:
-            words.append(word)
 
     word = random.choice(words).upper()
 
