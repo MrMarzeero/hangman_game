@@ -5,7 +5,7 @@ import subprocess
 import random
 
 # VARIABLES
-arquivo = 'palavras.txt'
+arquivo = 'words.txt'
 MAX_ATTEMPTS = 10
 
 # CODE
@@ -24,9 +24,9 @@ word = ''
 won = False
 tries = 0
 
-with open("palavras.txt", 'r') as data:
+with open(arquivo, 'r') as data:
     for word in data:
-        words.append(word)
+        words.append(word.strip())
         if not all(char.isalpha() for char in word):
             continue
 
@@ -66,12 +66,12 @@ def run_game():
 
         print('\n')
 
-        print("Digite uma letra: ", end="")
-        cur_attempt = input()
-
-        if not cur_attempt.isalpha():
-            print('Por favor, digite uma letra válida.')
-            cur_attempt = input()
+        while True: 
+            cur_attempt = input("Digite uma letra: ")
+            if len(cur_attempt) != 1 or not cur_attempt.isalpha():
+                print('Por favor, digite uma letra válida.')
+                continue
+            break
 
         if cur_attempt in past_attempts:
             print('Essa letra já foi tentada. Tente novamente.')
@@ -81,7 +81,8 @@ def run_game():
 
         past_attempts.append(cur_attempt)
 
-        remaining_attempts-=1
+        if cur_attempt not in word:
+            remaining_attempts-=1
         if all(char in past_attempts for char in word):
             won = True
             break
@@ -91,17 +92,9 @@ def run_game():
 if tries == 0:
     run_game()
 
-answer = '0'
-while not answer.isalpha() or not (answer.upper() == 'S' or answer.upper() == 'N'):
-    print(f"A palavra era {word}")
-    if won:
-        print('Parabéns você ganhou!')
-    elif tries != 0:
-        print('Você perdeu.')
+clear_terminal()
+if won:
+    print(f'Parabéns! Você acertou a palavra: {word}')
+elif tries != 0:
+    print(f'Fim de jogo! A palavra era: {word}')
 
-    print('Quer tentar de novo? (S/N)')
-    answer = input()
-
-    if answer.upper() == "S":
-        clear_terminal()
-        run_game()
